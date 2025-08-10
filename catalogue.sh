@@ -70,7 +70,7 @@ VALIDATE $? "copying catalogue service file"
 
 systemctl daemon -reload &>> $LOGFILE
 
-VALIDATE $? " catalogue daemon reload"
+VALIDATE $? " catalogue daemon-reload"
 
 systemctl enable catalogue &>> $LOGFILE
 
@@ -86,11 +86,11 @@ VALIDATE $? "copyitng mongodb repo"
 
 dnf install mongodb-org-shell -y &>> $LOGFILE
 
-VALIDATE $? " Installing MongoDB client"
+VALIDATE $? "Installing MongoDB client"
 
 mongo --host $MONGODB_HOST </app/schema/catalogue.js
 
-VALIDATE $? "LOading catalogue data into MongoDB"
+VALIDATE $? "Loading catalogue data into MongoDB"
 
 
 
