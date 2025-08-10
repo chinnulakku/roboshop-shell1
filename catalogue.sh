@@ -74,9 +74,9 @@ cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.
 
 VALIDATE $? "copying catalogue service file"
 
-systemctl daemon -reload &>> $LOGFILE
+systemctl deamon -reload &>> $LOGFILE
 
-VALIDATE $? " catalogue daemon-reload"
+VALIDATE $? " catalogue deamon-reload"
 
 systemctl enable catalogue &>> $LOGFILE
 
