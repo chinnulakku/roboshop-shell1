@@ -76,7 +76,7 @@ VALIDATE $? "copying catalogue service file"
 
 ssystemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? " catalogue deamon-reload"
+VALIDATE $? "catalogue deamon-reload"
 
 systemctl enable catalogue &>> $LOGFILE
 
