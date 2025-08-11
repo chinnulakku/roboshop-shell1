@@ -30,48 +30,63 @@ else
     echo "You are root user"
 fi # fi means reverse of if, indicating condition end
 
-dnf install maven -y
+dnf install maven -y &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
-
-useradd roboshop
-
-VALIDATE $? "Installing maven"
+id roboshop # if roboshop user does not exist, then it is failure 
+if [ $? -ne 0 ]
+then
+    useradd roboshop
+    VALIDATE $? "roboshop user creation"
+else
+    echo -e "roboshop user already exist $Y SKIPPING $N"
+fi
 
 mkdir -p /app
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "creating app directory"
 
-curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip
+curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Downloading shipping"
 
 cd /app
 
-unzip -o /tmp/shipping.zip
+unzip -o /tmp/shipping.zip &>> $LOGFILE
 
 VALIDATE $? "Installing maven"
 
-mvn clean package
+mvn clean package &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "Installing dependencies"
 
 mv target/shipping-1.0.jar shipping.jar
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "renaming jar file" 
 
-cp /etc/systemd/system/shipping.service
+cp home/centos/roboshop-shell1/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
-VALIDATE $? "Installing maven"
+VALIDATE $? "copying shipping service"
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOGFILE
 
-systemctl enable shipping 
+VALIDATE $? "daemon reload"
 
-systemctl start shipping 
+systemctl enable shipping  &>> $LOGFILE
 
-dnf install mysql -y
+VALIDATE $? "enable shipping"
 
-mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/shipping.sql 
+systemctl start shipping &>> $LOGFILE
 
-systemctl restart shipping
+VALIDATE $? "start shipping"
+
+dnf install mysql -y &>> $LOGFILE
+
+VALIDATE $? "install MYSQL client"
+
+mysql -h mysql.sudhaaru676.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+
+VALIDATE $? "loading shipping data"
+
+systemctl restart shipping &>> $LOGFILE
+
+VALIDATE $? "restart shipping"
