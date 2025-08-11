@@ -9,7 +9,7 @@ MONGODB_HOST=mongodb.sudhaaru676.online
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
-exec &>$LOGFILE
+
 
 echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
@@ -31,38 +31,38 @@ else
     echo "You are root user"
 fi # means reverse of if, indicating condition end
 
-dnf install nginx -y
+dnf install nginx -y &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
-systemctl enable nginx
+systemctl enable nginx &>> $LOGFILE
 
 VALIDATE $? "Enable nginx"
 
-systemctl start nginx
+systemctl start nginx &>> $LOGFILE
 
 VALIDATE $? "Starting nginx"
 
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>> $LOGFILE
 
 VALIDATE $? "removed default website"
 
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
 
 VALIDATE $? "Downloaded web application"
 
-cd /usr/share/nginx/html
+cd /usr/share/nginx/html &>> $LOGFILE
 
 VALIDATE $? "moving nginx html directory"
 
-unzip -o /tmp/web.zip
+unzip -o /tmp/web.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping web"
 
-cp /home/centos/roboshop-shell1/roboshop.conf /etc/nginx/default.d/roboshop.conf
+cp /home/centos/roboshop-shell1/roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
 
 VALIDATE $? "copied roboshop reverse proxy config"
 
-systemctl restart nginx
+systemctl restart nginx &>> $LOGFILE
 
 VALIDATE $? "restarted nginx"
