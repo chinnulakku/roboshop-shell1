@@ -31,7 +31,7 @@ else
     echo "You are root user"
 fi # means reverse of if, indicating condition end
 
-yum install nginx -y &>> $LOGFILE
+dnf install nginx -y &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
