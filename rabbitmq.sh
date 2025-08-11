@@ -32,11 +32,9 @@ fi # fi means reverse of if, indicating condition end
 
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> $LOGFILE
 
-
 VALIDATE $? " Downloading erlang script"
 
 curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>> $LOGFILE
-
 
 VALIDATE $? " Downloading rabbitmq script"
 
