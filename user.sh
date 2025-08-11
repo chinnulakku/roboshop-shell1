@@ -88,13 +88,13 @@ VALIDATE $? "starting user"
 
 cp /home/centos/roboshop-shell1/mongo.repo /etc/yum.repos.d/mongo.repo
 
-VALIDATE $? "copying mongodb repo"
+VALIDATE $? "copying mongo repo"
 
 dnf install mongodb-org-shell -y &>> $LOGFILE
 
 VALIDATE $? "Installing MongoDB client"
 
-mongo --host $MONGODB_HOST </app/schema/user.js 
+mongo --host $MONGODB_HOST </app/schema/user.js &>> $LOGFILE
 
 VALIDATE $? "Loading user data into MongoDB"
 
