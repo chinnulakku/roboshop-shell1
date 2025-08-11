@@ -9,6 +9,7 @@ MONGODB_HOST=mongodb.sudhaaru676.online
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
+exec &>$LOGFILE
 
 echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
