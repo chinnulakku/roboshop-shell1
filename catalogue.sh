@@ -49,18 +49,20 @@ id roboshop
 if [ $? -ne 0 ]
 then 
     useradd roboshop  &>> $LOGFILE
-    VALIDATE $? " Creating roboshop user"
+    VALIDATE $? " roboshop user creation"
 else
     echo -e "roboshop user already exist $Y SKIPPING $N"
 fi 
 
 mkdir -p /app &>> $LOGFILE
 
-VALIDATE $? "creating roboshop user"
+VALIDATE $? "creating app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
 
 VALIDATE $? "Downloading catalogue application"
+
+cd /app
 
 unzip -o /tmp/catalogue.zip &>> $LOGFILE
 
@@ -68,15 +70,16 @@ VALIDATE $? "unzipping catalogue"
 
 npm install &>> $LOGFILE
 
-VALIDATE $? "Installing depencies" 
+VALIDATE $? "Installing dependencies" 
 
+# use absolute, beacuse catalogue.service exists there
 cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? "copying catalogue service file"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "catalogue deamon-reload"
+VALIDATE $? "catalogue daemon-reload"
 
 systemctl enable catalogue &>> $LOGFILE
 
