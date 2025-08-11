@@ -8,7 +8,8 @@ N="\e[0m"
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
-exec &>LOGFILE
+exec &>$LOGFILE
+
 echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
 VALIDATE(){
@@ -36,7 +37,7 @@ VALIDATE $? "Installing Remi release"
 
 dnf module enable redis:remi-6.2 -y 
 
-VALIDATE $? "enable redis"
+VALIDATE $? "enabling redis"
 
 dnf install redis -y 
 
