@@ -82,7 +82,7 @@ dnf install mysql -y &>> $LOGFILE
 
 VALIDATE $? "install MYSQL client"
 
-mysql -h mysql.sudhaaru676.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+mysql -h mysql.sudhaaru676.online -uroot -pRoboShop@1 < /app/schema/shipping.sh &>> $LOGFILE
 
 VALIDATE $? "loading shipping data"
 
